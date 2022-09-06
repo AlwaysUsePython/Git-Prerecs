@@ -3,6 +3,7 @@ import java.math.BigInteger;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -12,58 +13,127 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.security.DigestInputStream;
 
 	 
 	public class Blob {
-	    public Blob(String filePath) throws FileNotFoundException, IOException, NoSuchAlgorithmException
+	    public Blob(String filePath) throws Exception
 	    {
 	    	String fileName = sha1Code(filePath); 
-	    	File testFile = new File(fileName); 
-	    	PrintWriter write = new PrintWriter(testFile);
-	    	write.print(readFile(filePath, StandardCharsets.UTF_8));
-	    	write.close();
-	    	/*File theDir = new File("/path/directory");
-	    	if (!theDir.exists())
+	    	System.out.println(fileName); 
+	    	BufferedReader reader = new BufferedReader(new FileReader(filePath));
+	    	String content = "";
+	    	while (reader.ready())
 	    	{
-	    		theDir.mkdirs();
-	    	}*/
+	    		content += (char)reader.read();
+	    	}
+	    	reader.close();
+	    	Path filePathToWrite = Paths.get("/Users/avagrace/eclipse-workspace/Git-Prerecs/objects/" + fileName); 
+	    	try {
+	    		Files.writeString(filePathToWrite, content, StandardCharsets.ISO_8859_1);
+	    	} catch (IOException exception) {
+	    		System.out.println("Write failed for " + fileName); 
+	    	}
 	    }
-	   
-	    // Function To Make New File
-	    /*public void newFile(String filePath, String myHash)
+	    
+//	    public static void copyContent(File a)
+//	            throws Exception
+//	        {
+//	    		FileInputStream in = new FileInputStream(a.getAbsolutePath());
+//	            FileOutputStream out = new FileOutputStream("/Users/avagrace/eclipse-workspace/Git-Prerecs/objects/" + sha1Code("/Users/avagrace/eclipse-workspace/Git-Prerecs/src/testFile.txt"));
+//	      
+//	            try {
+//	      
+//	                int n;
+//	      
+//	                // read() function to read the
+//	                // byte of data
+//	                while ((n = in.read()) != -1) {
+//	                    // write() function to write
+//	                    // the byte of data
+//	                    out.write(n);
+//	                }
+//	            }
+//	            finally {
+//	                if (in != null) {
+//	      
+//	                    // close() function to close the
+//	                    // stream
+//	                    in.close();
+//	                }
+//	                // close() function to close
+//	                // the stream
+//	                if (out != null) {
+//	                    out.close();
+//	                }
+//	            }
+//	            System.out.println("File Copied");
+//	        }
+	    
+	    public static void main(String[] args) throws Exception
 	    {
-	        String strPath = "", strName = "";
-	  
-	        // Try-catch Block
-	        try {
-	  
-	            // Creating BufferedReadered object
-	            BufferedReader br = new BufferedReader(
-	                new InputStreamReader(System.in));
-	            System.out.println("SHA1 Hash");
-	  
-	            // Reading File name
-	            strName = br.readLine();
-	            System.out.println("/Users/avagrace/eclipse-workspace/Git-Prerecs/Object" + "SHA1 Hash");
-	  
-	            // Reading File Path
-	            strPath = br.readLine();
-	  
-	            // Creating File Object
-	            File file1
-	                = new File(strPath + "" + strName + ".txt");
-	  
-	            // Method createNewFile() method creates blank
-	            // file.
-	            file1.createNewFile();
-	        }
-	  
-	        // Try-Catch Block
-	        catch (Exception ex1) {
-	        }
-	    }*/
+	    	Blob testBlob = new Blob ("/Users/avagrace/eclipse-workspace/Git-Prerecs/src/testFile.txt"); 
+	    }
+	    
+//	    public static void main(String[] args) throws IOException
+//	    {
+//	    	 // Creating two stream
+//	        // one input and other output
+//	        FileInputStream fis = null;
+//	        FileOutputStream fos = null;
+//	 
+//	        // Try block to check for exceptions
+//	        try {
+//	 
+//	            // Initializing both the streams with
+//	            // respective file directory on local machine
+//	 
+//	            // Custom directory path on local machine
+//	            fis = new FileInputStream("/Users/avagrace/eclipse-workspace/Git-Prerecs/src/testFile.txt");
+//	 
+//	            // Custom directory path on local machine
+//	            fos = new FileOutputStream("/Users/avagrace/eclipse-workspace/Git-Prerecs/objects/testFile2");
+//	 
+//	            int c;
+//	 
+//	            // Condition check
+//	            // Reading the input file till there is input
+//	            // present
+//	            while ((c = fis.read()) != -1) {
+//	 
+//	                // Writing to output file of the specified
+//	                // directory
+//	                fos.write(c);
+//	            }
+//	 
+//	            // By now writing to the file has ended, so
+//	 
+//	            // Display message on the console
+//	            System.out.println("copied the file successfully");
+//	        }
+//	 
+//	        // Optional finally keyword but is good practice to
+//	        // empty the occupied space is recommended whenever
+//	        // closing files,connections,streams
+//	        finally {
+//	 
+//	            // Closing the streams
+//	 
+//	            if (fis != null) {
+//	 
+//	                // Closing the fileInputStream
+//	                fis.close();
+//	            }
+//	            if (fos != null) {
+//	 
+//	                // Closing the fileOutputStream
+//	                fos.close();
+//	            }
+//	        }
+//	    }
 	    
 
 	        /**
@@ -73,7 +143,7 @@ import java.security.DigestInputStream;
 	         * @throws IOException if file doesn't or other IOException
 	         * @throws NoSuchAlgorithmException
 	         */
-	        public String sha1Code(String filePath) throws IOException, NoSuchAlgorithmException {
+	        public static String sha1Code(String filePath) throws IOException, NoSuchAlgorithmException {
 	            FileInputStream fileInputStream = new FileInputStream(filePath);
 	            MessageDigest digest = MessageDigest.getInstance("SHA-1");
 	            DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, digest);
@@ -114,50 +184,4 @@ import java.security.DigestInputStream;
 	            byte[] encoded = Files.readAllBytes(Paths.get(path));
 	            return new String(encoded, encoding);
 	        }
-		
-		/*public static String encryptThisString(String input)
-	    {
-	        try {
-	            // getInstance() method is called with algorithm SHA-1
-	            MessageDigest md = MessageDigest.getInstance("SHA-1");
-	 
-	            // digest() method is called
-	            // to calculate message digest of the input string
-	            // returned as array of byte
-	            byte[] messageDigest = md.digest(input.getBytes());
-	 
-	            // Convert byte array into signum representation
-	            BigInteger no = new BigInteger(1, messageDigest);
-	 
-	            // Convert message digest into hex value
-	            String hashtext = no.toString(16);
-	 
-	            // Add preceding 0s to make it 32 bit
-	            while (hashtext.length() < 32) {
-	                hashtext = "0" + hashtext;
-	            }
-	 
-	            // return the HashText
-	            return hashtext;
-	        }
-	 
-	        // For specifying wrong message digest algorithms
-	        catch (NoSuchAlgorithmException e) {
-	            throw new RuntimeException(e);
-	        }
-	    }*/
-	 
-	    // Driver code
-	    /*public static void main(String args[]) throws
-	                                       NoSuchAlgorithmException
-	    {
-	 
-	        System.out.println("HashCode Generated by SHA-1 for: ");
-	 
-	        String s1 = "GeeksForGeeks";
-	        System.out.println("\n" + s1 + " : " + encryptThisString(s1));
-	 
-	        String s2 = "hello world";
-	        System.out.println("\n" + s2 + " : " + encryptThisString(s2));
-	    }*/
 	}
