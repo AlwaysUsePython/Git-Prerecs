@@ -44,8 +44,23 @@ public void add(String fileName) throws Exception
 	Blob newBlob = new Blob(fileName); 
 	String hash = newBlob.sha1Code(fileName);
 	fileInfo.put(fileName, hash);
-	this.clearTheFile();
+	clearTheFile();
 	readHashContent(); 
+}
+
+public void remove(String fileName) throws IOException
+{
+	if (fileInfo.containsKey(fileName))
+	{
+		String hash = fileInfo.get(fileName);
+		fileInfo.remove(fileName, hash); 
+		clearTheFile();
+		readHashContent(); 
+	}
+	else
+	{
+		return;
+	}
 }
 
 public static void clearTheFile() throws IOException {
