@@ -39,44 +39,11 @@ import java.security.DigestInputStream;
 	    	}
 	    }
 	    
-//	    public static void copyContent(File a)
-//	            throws Exception
-//	        {
-//	    		FileInputStream in = new FileInputStream(a.getAbsolutePath());
-//	            FileOutputStream out = new FileOutputStream("/Users/avagrace/eclipse-workspace/Git-Prerecs/objects/" + sha1Code("/Users/avagrace/eclipse-workspace/Git-Prerecs/src/testFile.txt"));
-//	      
-//	            try {
-//	      
-//	                int n;
-//	      
-//	                // read() function to read the
-//	                // byte of data
-//	                while ((n = in.read()) != -1) {
-//	                    // write() function to write
-//	                    // the byte of data
-//	                    out.write(n);
-//	                }
-//	            }
-//	            finally {
-//	                if (in != null) {
-//	      
-//	                    // close() function to close the
-//	                    // stream
-//	                    in.close();
-//	                }
-//	                // close() function to close
-//	                // the stream
-//	                if (out != null) {
-//	                    out.close();
-//	                }
-//	            }
-//	            System.out.println("File Copied");
-//	        }
 	    
-	    public static void main(String[] args) throws Exception
-	    {
-	    	Blob testBlob = new Blob ("/Users/avagrace/eclipse-workspace/Git-Prerecs/src/testFile.txt"); 
-	    }
+//	    public static void main(String[] args) throws Exception
+//	    {
+//	    	Blob testBlob = new Blob ("/Users/avagrace/eclipse-workspace/Git-Prerecs/src/testFile.txt"); 
+//	    }
 	    
 //	    public static void main(String[] args) throws IOException
 //	    {
@@ -174,7 +141,7 @@ import java.security.DigestInputStream;
 	                    // one character, so we need to append a character of '0'
 	                    sb.append("0");
 	                }
-	                sb.append(Integer.toHexString(value).toUpperCase());
+	                sb.append(Integer.toHexString(value));
 	            }
 	            return sb.toString();
 	        }
