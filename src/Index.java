@@ -33,7 +33,7 @@ public void initialize()
 	            System.out.println("Failed to create empty file: " + file.getPath());
 	        }
 	        
-	        File theDir = new File("/path/objects");
+	        File theDir = new File("test/objects");
 			if (!theDir.exists()){
 			    theDir.mkdirs();
 			}
