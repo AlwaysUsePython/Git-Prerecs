@@ -7,7 +7,7 @@ public class IndexTester {
 		tester.add("ava.txt");
 		tester.add("eliza.txt");
 		tester.remove("eliza.txt");
-		tester.remove("babe.txt");
+		tester.remove("ava.txt");
 
 	}
 
