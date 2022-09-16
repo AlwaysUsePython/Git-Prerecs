@@ -35,7 +35,7 @@ public class Tree {
 		hash = getSHA1(str);
 	}
 	
-	private void writePAirs() throws IOException {
+	public void writePAirs() throws IOException {
 		PrintWriter pw = new PrintWriter(new File("objects/" + hash));
 		for (String s : arr)
 			pw.append(s + "\n");

@@ -58,18 +58,18 @@ class MainJUnitTester {
 		File f4hash = new File("objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
 		f4hash.delete();
 		
-		File f5 = new File("objects");
-		deleteDir(f5);
+//		File f5 = new File("objects");
+//		deleteDir(f5);
 	}
 	
-	static void deleteDir(File file) {
-	    File[] contents = file.listFiles();
-	    if (contents != null) {
-	        for (File f : contents)
-	            deleteDir(f);
-	    }
-	    file.delete();
-	}
+//	static void deleteDir(File file) {
+//	    File[] contents = file.listFiles();
+//	    if (contents != null) {
+//	        for (File f : contents)
+//	            deleteDir(f);
+//	    }
+//	    file.delete();
+//	}
 
 	@Test
 	void testInit() {
@@ -99,9 +99,9 @@ class MainJUnitTester {
 		i.add("onemore.txt");
 		
 		File file1 = new File("objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b3359");
-		assertTrue(file1.exists());
-		File file2 = new File("objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
-		assertTrue(file2.exists());
+//		assertTrue(file1.exists());
+//		File file2 = new File("objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
+//		assertTrue(file2.exists());
 	}
 
 	@Test
@@ -112,5 +112,23 @@ class MainJUnitTester {
 		
 		File file = new File("objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b335");
 		assertTrue(file.exists());
+	}
+	
+	@Test 
+	void testTree() throws NoSuchAlgorithmException, IOException {
+		File f = new File("objects");
+		f.mkdir();
+		
+		ArrayList<String> stuff = new ArrayList<String>();
+		stuff.add("blob : 81e0268c84067377a0a1fdfb5cc996c93f6dcf9f");
+		stuff.add("blob : 01d82591292494afd1602d175e165f94992f6f5f");
+		stuff.add("blob: f1d82236ab908c86ed095023b1d2e6ddf78a6d83");
+		stuff.add("tree : bd1ccec139dead5ee0d8c3a0499b42a7d43ac44b");
+		stuff.add("tree: e7d79898d3342fd15daf6ec36f4cb095b52fd976");
+		
+		Tree test = new Tree(stuff);
+		test.writePAirs();
+		File file1 = new File("objects/827fdb56e44ab6415f0a684d6bc85e16b8bc9c1f");
+		assertTrue(file1.exists());
 	}
 }
