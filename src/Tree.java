@@ -6,15 +6,24 @@ import java.math.BigInteger;
 
 public class Tree {
 	
-	private HashMap<String, String> map;
-
+	private ArrayList<String> arr;
+	private String str;
 	
-	public Tree() throws IOException {
-		
+	public Tree(ArrayList<String> list) throws IOException, NoSuchAlgorithmException {
+		arr = list;
+		str = "";
+		for (int i = 0; i < arr.size(); i++)
+			str += arr.get(i) + "\n";
+		if (str.length() > 0)
+			str = str.substring(0, str.length()-1);
+		str = getSHA1(str);
 	}
 	
 	private void saveList() throws IOException {
-		
+		PrintWriter pw = new PrintWriter(new File("test/objects" + str + "txt"));
+		for (String s : arr)
+			pw.append(s + "\n");
+		pw.close();
 	}
 	
 	private static String getSHA1(String input) throws IOException, NoSuchAlgorithmException {
