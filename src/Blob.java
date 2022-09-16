@@ -31,7 +31,7 @@ import java.security.DigestInputStream;
 	    		content += (char)reader.read();
 	    	}
 	    	reader.close();
-	    	Path filePathToWrite = Paths.get("/Users/avagrace/eclipse-workspace/Git-Prerecs/objects/" + fileName); 
+	    	Path filePathToWrite = Paths.get("objects/" + fileName); 
 	    	try {
 	    		Files.writeString(filePathToWrite, content, StandardCharsets.ISO_8859_1);
 	    	} catch (IOException exception) {
