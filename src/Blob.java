@@ -31,7 +31,7 @@ import java.security.DigestInputStream;
 	    		content += (char)reader.read();
 	    	}
 	    	reader.close();
-	    	Path filePathToWrite = Paths.get("test/objects/" + fileName); 
+	    	Path filePathToWrite = Paths.get("objects/" + fileName); 
 	    	try {
 	    		Files.writeString(filePathToWrite, content, StandardCharsets.ISO_8859_1);
 	    	} catch (IOException exception) {

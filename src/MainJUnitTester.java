@@ -17,8 +17,8 @@ class MainJUnitTester {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		File folder = new File("test/objects");
-		folder.mkdir();
+		File f = new File("objects");
+		f.mkdir();
 		
 		Path p1 = Paths.get("something.txt");
         try {
@@ -55,10 +55,10 @@ class MainJUnitTester {
 
 		File f4 = new File("onemore.txt");
 		f4.delete();
-		File f4hash = new File("test/objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
+		File f4hash = new File("objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
 		f4hash.delete();
 		
-		File f5 = new File("test/objects");
+		File f5 = new File("objects");
 		deleteDir(f5);
 	}
 	
@@ -79,7 +79,7 @@ class MainJUnitTester {
 		File file = new File("index.txt");
 		assertTrue(file.exists());
 		
-		Path path = Paths.get("test/objects");
+		Path path = Paths.get("objects");
 		assertTrue(Files.exists(path));
 	}
 	
@@ -87,7 +87,7 @@ class MainJUnitTester {
 	void testBlob() throws Exception {
 		Blob b = new Blob("something.txt");
 		
-		File file = new File("test/objects/1af17e73721dbe0c40011b82ed4bb1a7dbe3ce29");
+		File file = new File("objects/1af17e73721dbe0c40011b82ed4bb1a7dbe3ce29");
 		assertTrue(file.exists());
 	}
 	
@@ -98,9 +98,9 @@ class MainJUnitTester {
 		i.add("another.txt");
 		i.add("onemore.txt");
 		
-		File file1 = new File("test/objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b3359");
+		File file1 = new File("objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b3359");
 		assertTrue(file1.exists());
-		File file2 = new File("test/objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
+		File file2 = new File("objects/815b3ec88ab222fd849e02e19613a69ab52f5bae");
 		assertTrue(file2.exists());
 	}
 
@@ -110,7 +110,7 @@ class MainJUnitTester {
 		i.initialize();
 		i.remove("another.txt");
 		
-		File file = new File("test/objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b335");
+		File file = new File("objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b335");
 		assertTrue(file.exists());
 	}
 }
