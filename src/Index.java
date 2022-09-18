@@ -23,7 +23,7 @@ public void initialize()
 	{
 //		File file = new File("index");
 //		boolean fileCreated = false;
-		Path p = Paths.get("index.txt");
+		Path p = Paths.get("index");
         try {
             Files.writeString(p, "", StandardCharsets.ISO_8859_1);
         } catch (IOException e) {
