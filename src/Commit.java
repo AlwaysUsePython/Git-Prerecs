@@ -1,5 +1,4 @@
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,7 +14,7 @@ import java.util.Calendar;
 public class Commit {
 	private Commit parent = null; 
 	private Commit connected = null; // will this always be null?
-	private String commitLocation = "";
+	private String commitLocation;
 	private String pTree; 
 	public String summary;
 	public String author;
@@ -27,14 +26,16 @@ public class Commit {
 		this.author = author; 
 		parent = parentPointer; 
 		commitLocation = getLocation();
+		date = getDate(); 
+		writeFile(); 
 	}
 	
 	public String getDate()
 	{
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 		Calendar cal = Calendar.getInstance();
-		date = dateFormat.format(cal.getTime()); // should I use the member variable here?
-		return date; 
+		String dt = dateFormat.format(cal.getTime());
+		return dt; // should I use the member variable here?
 	}
 	
 	public static String SHA1 (String contents) throws NoSuchAlgorithmException, IOException
@@ -69,26 +70,26 @@ public class Commit {
 	public String getContents() throws NoSuchAlgorithmException, IOException
 	{
 		String content = ""; 
-		content += pTree + "/n"; 
+		content += pTree + "\n"; 
 		if (parent != null)
 		{
-			content += parent.getLocation() + "/n";
+			content += parent.getLocation() + "\n";
 		}
 		else
 		{
-			content += "/n";
+			content += "\n";
 		}
 		if (connected != null)
 		{
-			content += connected.getLocation() + "/n";
+			content += connected.getLocation() + "\n";
 		}
 		else
 		{
-			content += "/n";
+			content += "\n";
 		}
-		content += author + "/n";
-		content += date + "/n";
-		content += summary + "/n"; 
+		content += author + "\n";
+		content += date + "\n";
+		content += summary; 
 		return content;
 		
 	}
@@ -100,7 +101,7 @@ public class Commit {
 	
 	public void writeFile() throws NoSuchAlgorithmException, IOException
 	{
-		Path p = Paths.get(SHA1(getContents()));
+		Path p = Paths.get("objects/" + SHA1(getContents()));
         try {
             Files.writeString(p, getContents(), StandardCharsets.ISO_8859_1);
         } catch (IOException e) {
