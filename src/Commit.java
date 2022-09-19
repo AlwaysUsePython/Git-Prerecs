@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Formatter;
 
 public class Commit {
 	private Commit parent = null; 
@@ -21,12 +23,12 @@ public class Commit {
 	public String date; 
 	public Commit(String value, String summary, String author, Commit parentPointer) throws NoSuchAlgorithmException, IOException
 	{
+		date = getDate();
 		pTree = value; 
 		this.summary = summary;
 		this.author = author; 
 		parent = parentPointer; 
 		commitLocation = getLocation();
-		date = getDate(); 
 		writeFile(); 
 	}
 	
@@ -38,33 +40,45 @@ public class Commit {
 		return dt; // should I use the member variable here?
 	}
 	
-	public static String SHA1 (String contents) throws NoSuchAlgorithmException, IOException
+	public void updateParent()
 	{
-		FileInputStream fileInputStream = new FileInputStream(contents);
-        MessageDigest digest = MessageDigest.getInstance("SHA-1");
-        DigestInputStream digestInputStream = new DigestInputStream(fileInputStream, digest);
-        byte[] bytes = new byte[1024];
-        // read all file content
-        while (digestInputStream.read(bytes) > 0);
-
-//        digest = digestInputStream.getMessageDigest();
-        byte[] resultByteArry = digest.digest();
-        return bytesToHexString(resultByteArry);
+		if (parent != null)
+		{
+			
+		}
 	}
 	
-	public static String bytesToHexString(byte[] bytes)
+	private static String SHA1(String contents)
 	{
-		 StringBuilder sb = new StringBuilder();
-         for (byte b : bytes) {
-             int value = b & 0xFF;
-             if (value < 16) {
-                 // if value less than 16, then it's hex String will be only
-                 // one character, so we need to append a character of '0'
-                 sb.append("0");
-             }
-             sb.append(Integer.toHexString(value));
-         }
-         return sb.toString();
+	    String sha1 = "";
+	    try
+	    {
+	        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+	        crypt.reset();
+	        crypt.update(contents.getBytes("UTF-8"));
+	        sha1 = byteToHex(crypt.digest());
+	    }
+	    catch(NoSuchAlgorithmException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    catch(UnsupportedEncodingException e)
+	    {
+	        e.printStackTrace();
+	    }
+	    return sha1;
+	}
+
+	private static String byteToHex(final byte[] hash)
+	{
+	    Formatter formatter = new Formatter();
+	    for (byte b : hash)
+	    {
+	        formatter.format("%02x", b);
+	    }
+	    String result = formatter.toString();
+	    formatter.close();
+	    return result;
 	}
 	
 	public String getContents() throws NoSuchAlgorithmException, IOException
@@ -88,8 +102,9 @@ public class Commit {
 			content += "\n";
 		}
 		content += author + "\n";
-		content += date + "\n";
+		content += getDate() + "\n";
 		content += summary; 
+		System.out.println(content);
 		return content;
 		
 	}
@@ -102,6 +117,7 @@ public class Commit {
 	public void writeFile() throws NoSuchAlgorithmException, IOException
 	{
 		Path p = Paths.get("objects/" + SHA1(getContents()));
+		System.out.println(p); 
         try {
             Files.writeString(p, getContents(), StandardCharsets.ISO_8859_1);
         } catch (IOException e) {
