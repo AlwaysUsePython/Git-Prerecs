@@ -1,3 +1,5 @@
+import java.io.Closeable;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -10,8 +12,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Formatter;
+
+import com.sun.tools.javac.util.List;
 
 public class Commit {
 	private Commit parent = null; 
@@ -40,13 +45,36 @@ public class Commit {
 		return dt; // should I use the member variable here?
 	}
 	
-	public void updateParent()
+	public void updateParent() throws NoSuchAlgorithmException, IOException
 	{
 		if (parent != null)
 		{
+			String location = connected.getLocation(); 
+			setVariable(3, location, parent.getLocation()); 
+			// get parent location, edit the file to make child the location of new node
 			
 		}
+		else
+		{
+			return; 
+		}
 	}
+	
+	public static void setVariable(int lineNumber, String data, String fileName) throws IOException {
+	    Path path = Paths.get(fileName);
+	    ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(path, StandardCharsets.UTF_8);
+	    lines.set(lineNumber - 1, data);
+	    Files.write(path, lines, StandardCharsets.UTF_8);
+	}
+	
+//	public static String readFile(String fileName) throws IOException
+//	{
+//		Path path = Paths.get(fileName);
+//		String str = Files.readString(path);
+//		System.out.println(str); 
+//		return str; 
+//	}
+
 	
 	private static String SHA1(String contents)
 	{
@@ -114,7 +142,7 @@ public class Commit {
 		return SHA1(getContents()); 
 	}
 	
-	public void writeFile() throws NoSuchAlgorithmException, IOException
+	public String writeFile() throws NoSuchAlgorithmException, IOException
 	{
 		Path p = Paths.get("objects/" + SHA1(getContents()));
 		System.out.println(p); 
@@ -124,6 +152,7 @@ public class Commit {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return p.toString(); 
 	}
 
 }
