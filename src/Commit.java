@@ -1,4 +1,4 @@
-import java.io.Closeable;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Formatter;
 
-import com.sun.tools.javac.util.List;
 
 public class Commit {
 	private Commit parent = null; 
@@ -35,6 +34,7 @@ public class Commit {
 		parent = parentPointer; 
 		commitLocation = getLocation();
 		writeFile(); 
+		updateParent();
 	}
 	
 	public String getDate()
@@ -49,8 +49,9 @@ public class Commit {
 	{
 		if (parent != null)
 		{
-			String location = connected.getLocation(); 
-			setVariable(3, location, parent.getLocation()); 
+			String location = "objects/" + getLocation();
+			System.out.println(location);
+			setVariable(3, location, ("objects/" + parent.getLocation())); 
 			// get parent location, edit the file to make child the location of new node
 			
 		}
@@ -132,7 +133,7 @@ public class Commit {
 		content += author + "\n";
 		content += getDate() + "\n";
 		content += summary; 
-		System.out.println(content);
+//		System.out.println(content);
 		return content;
 		
 	}
@@ -145,7 +146,7 @@ public class Commit {
 	public String writeFile() throws NoSuchAlgorithmException, IOException
 	{
 		Path p = Paths.get("objects/" + SHA1(getContents()));
-		System.out.println(p); 
+//		System.out.println(p); 
         try {
             Files.writeString(p, getContents(), StandardCharsets.ISO_8859_1);
         } catch (IOException e) {
