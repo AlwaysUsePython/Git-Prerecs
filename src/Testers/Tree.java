@@ -38,8 +38,17 @@ public class Tree {
 	
 	public void writePAirs() throws IOException {
 		PrintWriter pw = new PrintWriter(new File("objects/" + hash));
-		for (String s : arr)
-			pw.append(s + "\n");
+		for (String s : arr) {
+			String randomStr = " ";
+			
+			for (int i = 0; i < 10; i ++) {
+				randomStr += (char)((int)(Math.random()*26)+97);
+			}
+			
+			randomStr += ".txt";
+			
+			pw.append(s + randomStr + "\n");
+		}
 		pw.close();
 	}
 	
