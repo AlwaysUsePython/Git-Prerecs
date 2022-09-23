@@ -99,14 +99,33 @@ class IndexJUnitTester {
 	}
 
 	@Test
-	void testRemove() throws IOException {
+	void testRemove() throws Exception {
 		Index i = new Index();
 		i.initialize();
 		i.remove("another.txt");
 		
 		File file = new File("objects/b7c8ffb8fbc67c171328e0e8f643694e8e61b335");
 		assertTrue(file.exists());
-	}
+		
+		i.add("eliza.txt");
+		i.remove("eliza.txt");
+		
+		assertFalse(i.fileInfo.containsKey("eliza.txt"));
+		
+		String newContent = "";
+		
+		BufferedReader thirdReader = new BufferedReader(new FileReader("index"));
+		
+		while (thirdReader.ready()) {
+			newContent += (char)thirdReader.read();
+		}
+		
+		System.out.println(newContent);
+		
+		// check that index contains the stuff it should but also has the secondTest removed
+		assertTrue(!newContent.contains("eliza.txt"));
+		
+		thirdReader.close();	}
 	
 	@Test 
 	void testTree() throws NoSuchAlgorithmException, IOException {

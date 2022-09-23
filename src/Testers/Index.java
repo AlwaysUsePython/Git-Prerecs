@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Index {
-private HashMap<String, String> fileInfo; 
+public HashMap<String, String> fileInfo; 
 
 public Index()
 {
