@@ -14,7 +14,7 @@ import java.util.*;
 import java.io.*;
 import java.security.*;
 
-class MainJUnitTester {
+class IndexJUnitTester {
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -84,14 +84,7 @@ class MainJUnitTester {
 		assertTrue(Files.exists(path));
 	}
 	
-	@Test
-	void testBlob() throws Exception {
-		Blob b = new Blob("something.txt");
-		
-		File file = new File("objects/1af17e73721dbe0c40011b82ed4bb1a7dbe3ce29");
-		assertTrue(file.exists());
-	}
-	
+
 	@Test
 	void testAdd() throws Exception {
 		Index i = new Index();
